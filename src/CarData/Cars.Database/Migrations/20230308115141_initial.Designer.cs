@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cars.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230308111034_initial")]
+    [Migration("20230308115141_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -38,6 +38,13 @@ namespace Cars.Database.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CarSchedulerId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CarShedulerId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
@@ -49,7 +56,67 @@ namespace Cars.Database.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CarSchedulerId");
+
                     b.ToTable("Cars");
+                });
+
+            modelBuilder.Entity("Cars.Models.Entities.CarProblems", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CarId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CarPart")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("TotalAmount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CarId");
+
+                    b.ToTable("CarProblems");
+                });
+
+            modelBuilder.Entity("Cars.Models.Entities.CarScheduler", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DeletedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("VisitAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CarSchedulers");
                 });
 
             modelBuilder.Entity("Cars.Models.Entities.User", b =>
@@ -259,6 +326,26 @@ namespace Cars.Database.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Cars.Models.Entities.Car", b =>
+                {
+                    b.HasOne("Cars.Models.Entities.CarScheduler", "CarScheduler")
+                        .WithMany("Cars")
+                        .HasForeignKey("CarSchedulerId");
+
+                    b.Navigation("CarScheduler");
+                });
+
+            modelBuilder.Entity("Cars.Models.Entities.CarProblems", b =>
+                {
+                    b.HasOne("Cars.Models.Entities.Car", "Car")
+                        .WithMany("CarProblems")
+                        .HasForeignKey("CarId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Car");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -308,6 +395,16 @@ namespace Cars.Database.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Cars.Models.Entities.Car", b =>
+                {
+                    b.Navigation("CarProblems");
+                });
+
+            modelBuilder.Entity("Cars.Models.Entities.CarScheduler", b =>
+                {
+                    b.Navigation("Cars");
                 });
 #pragma warning restore 612, 618
         }

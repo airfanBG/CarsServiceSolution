@@ -54,19 +54,18 @@ namespace Cars.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cars",
+                name: "CarSchedulers",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CarBrand = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CarModel = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    VisitAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cars", x => x.Id);
+                    table.PrimaryKey("PK_CarSchedulers", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -175,6 +174,53 @@ namespace Cars.Database.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Cars",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CarBrand = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CarModel = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CarShedulerId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CarSchedulerId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cars", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cars_CarSchedulers_CarSchedulerId",
+                        column: x => x.CarSchedulerId,
+                        principalTable: "CarSchedulers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CarProblems",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CarPart = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TotalAmount = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    CarId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DeletedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CarProblems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CarProblems_Cars_CarId",
+                        column: x => x.CarId,
+                        principalTable: "Cars",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -213,6 +259,16 @@ namespace Cars.Database.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CarProblems_CarId",
+                table: "CarProblems",
+                column: "CarId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cars_CarSchedulerId",
+                table: "Cars",
+                column: "CarSchedulerId");
         }
 
         /// <inheritdoc />
@@ -234,13 +290,19 @@ namespace Cars.Database.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Cars");
+                name: "CarProblems");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "Cars");
+
+            migrationBuilder.DropTable(
+                name: "CarSchedulers");
         }
     }
 }

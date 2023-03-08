@@ -12,6 +12,12 @@ namespace Cars.Database
 {
     public class ApplicationDbContext:IdentityDbContext<User>
     {
+        //https://learn.microsoft.com/en-us/ef/core/dbcontext-configuration/
+        //https://learn.microsoft.com/en-us/ef/core/modeling/entity-types?tabs=data-annotations
+        //https://learn.microsoft.com/en-us/ef/core/testing/
+        //https://learn.microsoft.com/en-us/ef/core/managing-schemas/migrations/?tabs=dotnet-core-cli
+        //https://learn.microsoft.com/en-us/ef/core/change-tracking/
+        //https://learn.microsoft.com/en-us/ef/core/saving/cascade-delete
         public DbSet<Car> Cars { get; set; }
         public DbSet<CarScheduler> CarSchedulers { get; set; }
         public DbSet<CarProblems> CarProblems { get; set; }
@@ -22,12 +28,20 @@ namespace Cars.Database
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //https://learn.microsoft.com/en-us/ef/core/modeling/data-seeding
+
+            var CarScheduler10 = new CarScheduler() { VisitAt = new DateTime(2023, 3, 10) };
+           var CarScheduler11 = new CarScheduler() { VisitAt = new DateTime(2023, 3, 10) };
+           var CarScheduler9 = new CarScheduler() { VisitAt = new DateTime(2023, 3, 10) };
+           var CarScheduler12 = new CarScheduler() { VisitAt = new DateTime(2023, 3, 10) };
+            modelBuilder.Entity<CarScheduler>().HasData(CarScheduler10, CarScheduler11, CarScheduler12, CarScheduler9);
+
             var cars = new List<Car>() {
-                new Car() { CarBrand = "BMW", CarModel="314",CarScheduler=new CarScheduler(){VisitAt=new DateTime(2023,3,10) } } ,
-                new Car() { CarBrand = "Audi",CarModel="A6",CarScheduler=new CarScheduler(){VisitAt=new DateTime(2023,3,10) } } ,
-                new Car() { CarBrand = "Mercedes",CarModel="s220",CarScheduler=new CarScheduler(){VisitAt=new DateTime(2023,3,11) } } ,
-                new Car() { CarBrand = "Ford", CarModel="Focus",CarScheduler=new CarScheduler(){VisitAt=new DateTime(2023,3,9) } } ,
-                new Car() { CarBrand = "Peugeot",CarModel="205",CarScheduler=new CarScheduler(){VisitAt=new DateTime(2023,3,12) } } };
+                new Car() { CarBrand = "BMW", CarModel="314",CarShedulerId=CarScheduler10.Id } ,
+                new Car() { CarBrand = "Audi",CarModel="A6",CarShedulerId=CarScheduler10.Id  } ,
+                new Car() { CarBrand = "Mercedes",CarModel="s220",CarShedulerId=CarScheduler11.Id  } ,
+                new Car() { CarBrand = "Ford", CarModel="Focus",CarShedulerId=CarScheduler9.Id } ,
+                new Car() { CarBrand = "Peugeot",CarModel="205",CarShedulerId=CarScheduler12.Id } };
             modelBuilder.Entity<Car>().HasData(cars);
 
             var carProblems = new List<CarProblems>()
@@ -80,7 +94,7 @@ namespace Cars.Database
             };
             modelBuilder.Entity<CarProblems>().HasData(carProblems);
 
-
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

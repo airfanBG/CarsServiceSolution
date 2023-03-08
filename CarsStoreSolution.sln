@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33403.182
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cars.Models", "src\CarData\Cars.Models\Cars.Models.csproj", "{9551E288-73F5-457B-B627-CB41A840A867}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cars.Database", "src\CarData\Cars.Database\Cars.Database.csproj", "{271757B4-6BB0-4379-BD2C-ADD078284DDE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9551E288-73F5-457B-B627-CB41A840A867}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9551E288-73F5-457B-B627-CB41A840A867}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9551E288-73F5-457B-B627-CB41A840A867}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9551E288-73F5-457B-B627-CB41A840A867}.Release|Any CPU.Build.0 = Release|Any CPU
+		{271757B4-6BB0-4379-BD2C-ADD078284DDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{271757B4-6BB0-4379-BD2C-ADD078284DDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{271757B4-6BB0-4379-BD2C-ADD078284DDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{271757B4-6BB0-4379-BD2C-ADD078284DDE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9180D272-D853-4CA4-AECB-9E016D9F944E}
+	EndGlobalSection
+EndGlobal

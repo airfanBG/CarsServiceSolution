@@ -21,11 +21,20 @@ namespace Cars.Database
         public DbSet<Car> Cars { get; set; }
         public DbSet<CarScheduler> CarSchedulers { get; set; }
         public DbSet<CarProblems> CarProblems { get; set; }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //public ApplicationDbContext()
+        //{
+
+        //}
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> dbContextOptionsBuilder):base(dbContextOptionsBuilder)
         {
-            optionsBuilder.UseSqlServer(
-                @"Server=.;Database=CarService;Trusted_Connection=True;TrustServerCertificate=yes;");
+
         }
+        //If you use this type of connection string uncomment OnConfiguring and Empty Constructor
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    optionsBuilder.UseSqlServer(
+        //        @"Server=.;Database=CarService;Trusted_Connection=True;TrustServerCertificate=yes;");
+        //}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //https://learn.microsoft.com/en-us/ef/core/modeling/data-seeding
